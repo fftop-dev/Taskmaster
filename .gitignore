@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # See https://www.dartlang.org/guides/libraries/private-files
 
 # Files and directories created by pub
@@ -71,4 +70,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
->>>>>>> 7845dfca6b619723e4a52710f6dae8ae6b2289fb
