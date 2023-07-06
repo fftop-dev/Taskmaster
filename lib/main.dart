@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
               '/tasks_list': (context) => const ListTasksPage(),
               '/add_task': (context) =>   AddTaskPage(),
             }
-            //home:  ListTasksPage(),
     ));
   }
 }

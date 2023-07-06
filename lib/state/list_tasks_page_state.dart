@@ -32,7 +32,7 @@ class ListTasksPageState extends State<ListTasksPage> {
   void loadAddTaskPage() {
     Navigator.pushNamed(context, '/add_task');
   }
-  
+
   void toggleSort() {
     Provider.of<Taskmaster>(context, listen: false).sortTasksSwitch();
     setState(() {});

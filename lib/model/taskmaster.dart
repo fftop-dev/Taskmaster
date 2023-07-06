@@ -47,12 +47,15 @@ class Taskmaster extends ChangeNotifier{
     tasks.add(task);
   }
 
-  //0 = age
-  //1 = priority asc
-  //2 = priority dsc
+  void removeTask(int id){
+    for(int i = 0; i < tasks.length; i++){
+      if(tasks[i].id == id){
+        tasks.removeAt(i);
+      }
+    }
+  }
 
   void sortTasksSwitch(){
-    print('was: ' + filterStatus.toString());
     if(filterStatus == 0){
         sortByPriority(0);
         filterStatus = 1;
@@ -65,7 +68,6 @@ class Taskmaster extends ChangeNotifier{
         sortByAge();
         filterStatus = 0;
       }
-    print('is: ' + filterStatus.toString());
   }
   void sortByAge(){
     tasks.sort((a,b) {
