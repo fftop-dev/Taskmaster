@@ -37,6 +37,13 @@ class AddTaskPageState extends State<AddTaskPage> {
     Navigator.pushNamed(context, '/tasks_list');
   }
 
+  bool checkInputField(String text){
+    if(text.trim().isNotEmpty && text.length <= 100){
+      return true;
+    }
+    return false;
+  }
+
   Widget addTaskForm(BuildContext context) {
     final TextEditingController txtController = TextEditingController();
     Task newTask = Task("", "", false);
@@ -105,7 +112,7 @@ class AddTaskPageState extends State<AddTaskPage> {
         ),
         ElevatedButton(
           onPressed: () {
-            if (txtController.text.isNotEmpty) {
+            if (checkInputField(txtController.text)) {
               newTask.taskName = txtController.text;
               newTask.priority = _selectedPriority;
               tasks.addTask(newTask);
