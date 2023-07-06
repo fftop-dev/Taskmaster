@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sensors_plus/sensors_plus.dart';
-import 'package:taskmaster/pages/add_task_page.dart';
 import 'package:taskmaster/pages/list_task_page.dart';
 import '../model/Taskmaster.dart';
 import 'package:vibration/vibration.dart';
@@ -22,7 +20,7 @@ class ListTasksPageState extends State<ListTasksPage> {
           String? currentRoute = ModalRoute.of(context)?.settings.name;
           if (currentRoute == '/tasks_list') {
             shaking = true;
-            handleShakeEvent();
+            loadAddTaskPage();
           }
         }
       } else {
@@ -31,8 +29,13 @@ class ListTasksPageState extends State<ListTasksPage> {
     });
   }
 
-  void handleShakeEvent() {
+  void loadAddTaskPage() {
     Navigator.pushNamed(context, '/add_task');
+  }
+  
+  void toggleSort() {
+    Provider.of<Taskmaster>(context, listen: false).sortTasksSwitch();
+    setState(() {});
   }
 
   @override
@@ -40,8 +43,14 @@ class ListTasksPageState extends State<ListTasksPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,
-        title: Text("Taskmaster"),
+        title: const Text("Taskmaster"),
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            onPressed: toggleSort,
+            icon: const Icon(Icons.sort_by_alpha),
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -57,11 +66,10 @@ class ListTasksPageState extends State<ListTasksPage> {
             right: 16.0,
             child: FloatingActionButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddTaskPage()));
+                loadAddTaskPage();
               },
               backgroundColor: Colors.pink,
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
             ),
           ),
         ],
@@ -85,7 +93,7 @@ class ListTasksPageState extends State<ListTasksPage> {
         },
         child: ListTile(
           title: Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: taskmaster.getTaskList()[index].completed
                   ? Colors.grey.withOpacity(0.5)
@@ -93,7 +101,7 @@ class ListTasksPageState extends State<ListTasksPage> {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: ListTile(
-              leading: Container(
+              leading: SizedBox(
                 width: 16,
                 child: Checkbox(
                   value: taskmaster.getTaskList()[index].completed,
@@ -110,7 +118,7 @@ class ListTasksPageState extends State<ListTasksPage> {
               title: RichText(
                 text: TextSpan(
                   text: taskmaster.getTaskList()[index].completed
-                      ? "${taskmaster.getTaskList()[index].task}"
+                      ? taskmaster.getTaskList()[index].task
                       : taskmaster.getTaskList()[index].task,
                   style: TextStyle(
                     color: Colors.black,
@@ -123,7 +131,7 @@ class ListTasksPageState extends State<ListTasksPage> {
               ),
               trailing: Text(
                 "[${taskmaster.getTaskList()[index].priority}]",
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 9.0,
                   fontWeight: FontWeight.bold,

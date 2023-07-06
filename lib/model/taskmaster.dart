@@ -1,8 +1,14 @@
 import 'package:flutter/widgets.dart';
-
 import 'task.dart';
 
 class Taskmaster extends ChangeNotifier{
+
+  int filterStatus = 0;
+
+  Taskmaster(){
+    sortByAge();
+  }
+
    List<Task> tasks = [
     Task("Brush teeth before bed", "Important", false),
     Task("Read a chapter of a book", "Can wait", false),
@@ -41,5 +47,72 @@ class Taskmaster extends ChangeNotifier{
     tasks.add(task);
   }
 
+  //0 = age
+  //1 = priority asc
+  //2 = priority dsc
 
+  void sortTasksSwitch(){
+    print('was: ' + filterStatus.toString());
+    if(filterStatus == 0){
+        sortByPriority(0);
+        filterStatus = 1;
+      }
+      else if (filterStatus == 1){
+        sortByPriority(1);
+        filterStatus = 2;
+      }
+      else{
+        sortByAge();
+        filterStatus = 0;
+      }
+    print('is: ' + filterStatus.toString());
+  }
+  void sortByAge(){
+    tasks.sort((a,b) {
+      return a.id.compareTo(b.id);
+    });
+  }
+  void sortByPriority(int mode){
+    tasks.sort((a, b) {
+      final priorityOrder = {
+        'Can wait': 0,
+        'Not important' : 1,
+        'Mildly important': 2,
+        'Important': 3,
+        'Very important': 4,
+        'Urgent': 5,
+      };
+
+      int getIndex(Task task) {
+        int? val =  priorityOrder[
+        task.priority
+        ] ;
+
+        if (val == null){
+          return 0;
+        }
+        else{
+          return val;
+        }
+      }
+      if(mode == 0){
+        return getIndex(b).compareTo(getIndex(a));
+      }
+      else if(mode == 1){
+        return getIndex(a).compareTo(getIndex(b));
+      }
+      return 0;
+    });
+  }
+  void sortByCurrentFilter(){
+    if(filterStatus == 0){
+      sortByAge();
+    }
+    else if(filterStatus == 1){
+      sortByPriority(0);
+    }
+    else{
+      sortByPriority(1);
+    }
+  }
 }

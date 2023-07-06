@@ -1,41 +1,40 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmaster/model/task.dart';
 import 'package:taskmaster/pages/add_task_page.dart';
-import 'package:taskmaster/pages/list_task_page.dart';
-
 import '../model/Taskmaster.dart';
 
 class AddTaskPageState extends State<AddTaskPage> {
-  String _selectedPriority = "urgent";
+  String _selectedPriority = "Urgent";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add task"),
+        title: const Text("Add task"),
         backgroundColor: Colors.pink,
         automaticallyImplyLeading: false,
-        // Disable the automatically added back button
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushNamed(
-                context, '/tasks_list'); // Navigate to the main page
+            loadListTasksPage();
           },
         ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment:
-              MainAxisAlignment.center, // Align the form vertically center
+              MainAxisAlignment.center,
           children: [
             addTaskForm(context),
           ],
         ),
       ),
     );
+  }
+
+  void loadListTasksPage() {
+    Navigator.pushNamed(context, '/tasks_list');
   }
 
   Widget addTaskForm(BuildContext context) {
@@ -46,29 +45,29 @@ class AddTaskPageState extends State<AddTaskPage> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.all(16.0),
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          margin: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           decoration: BoxDecoration(
             color: Colors.pink.withOpacity(0.5),
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: TextField(
             controller: txtController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: "Enter task",
             ),
           ),
         ),
         Container(
-          margin: EdgeInsets.all(16.0),
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          margin: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           decoration: BoxDecoration(
             color: Colors.pink.withOpacity(0.5),
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: DropdownButtonFormField<String>(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               //hintText: "Select priority",
             ),
@@ -76,29 +75,29 @@ class AddTaskPageState extends State<AddTaskPage> {
             onChanged: (newValue) {
               _selectedPriority = newValue!;
             },
-            items: [
+            items: const [
               DropdownMenuItem(
-                value: "urgent",
+                value: "Urgent",
                 child: Text("Urgent"),
               ),
               DropdownMenuItem(
-                value: "very important",
+                value: "Very important",
                 child: Text("Very Important"),
               ),
               DropdownMenuItem(
-                value: "important",
+                value: "Important",
                 child: Text("Important"),
               ),
               DropdownMenuItem(
-                value: "mildly important",
+                value: "Mildly important",
                 child: Text("Mildly Important"),
               ),
               DropdownMenuItem(
-                value: "not important",
+                value: "Not important",
                 child: Text("Not Important"),
               ),
               DropdownMenuItem(
-                value: "can wait",
+                value: "Can wait",
                 child: Text("Can Wait"),
               ),
             ],
@@ -110,19 +109,18 @@ class AddTaskPageState extends State<AddTaskPage> {
               newTask.taskName = txtController.text;
               newTask.priority = _selectedPriority;
               tasks.addTask(newTask);
+              loadListTasksPage();
               setState(() {});
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ListTasksPage()));
-              setState(() {});
+              Provider.of<Taskmaster>(context, listen: false).sortByCurrentFilter();
             }
           },
-          child: Text("add task", style: TextStyle(color: Colors.black)),
           style: ElevatedButton.styleFrom(
-            primary: Colors.pink,
+            backgroundColor: Colors.pink,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
+          child: const Text("add task", style: TextStyle(color: Colors.black)),
         ),
       ],
     );

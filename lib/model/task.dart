@@ -4,8 +4,11 @@ class Task extends ChangeNotifier{
   String _task;
   String _priority;
   bool _completed;
+  int _id;
 
-  Task(this._task, this._priority, this._completed);
+  static int count = 0;
+
+  Task(this._task, this._priority, this._completed): _id = count++;
 
   bool get completed => _completed;
 
@@ -25,4 +28,9 @@ class Task extends ChangeNotifier{
     _task = value;
   }
 
+  int get id => _id;
+
+  set id(int value) {
+    _id = value;
+  }
 }

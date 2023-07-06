@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmaster/pages/add_task_page.dart';
 import 'package:taskmaster/pages/list_task_page.dart';
-
 import 'model/Taskmaster.dart';
 
 void main() {
@@ -14,7 +13,7 @@ void main() {
 class MyApp extends StatelessWidget {
   final Taskmaster tasks;
 
-  MyApp(this.tasks, {super.key}){}
+  const MyApp(this.tasks, {super.key});
 
   @override
   Widget build(BuildContext context) {
