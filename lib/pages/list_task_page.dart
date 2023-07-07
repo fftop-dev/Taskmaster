@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../state/list_tasks_page_state.dart';
 
 class ListTasksPage extends StatefulWidget {

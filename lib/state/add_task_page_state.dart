@@ -5,7 +5,7 @@ import 'package:taskmaster/pages/add_task_page.dart';
 import '../model/Taskmaster.dart';
 
 class AddTaskPageState extends State<AddTaskPage> {
-  String _selectedPriority = "Urgent";
+  String _selectedPriority = "Important";
 
   @override
   Widget build(BuildContext context) {
